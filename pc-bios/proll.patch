@@ -21,7 +21,7 @@ diff -ruN proll_18.orig/qemu/Makefile proll-patch-15/qemu/Makefile
 +#
 +# proll:
 +# qemu/Makefile - make PROLL for QEMU
-+# $Id: proll.patch,v 1.6 2005-11-11 00:24:57 bellard Exp $
++# $Id: proll.patch,v 1.6 2005/11/11 00:24:57 bellard Exp $
 +#
 +# Copyright 1999 Pete Zaitcev
 +# This is Free Software is licensed under terms of GNU General Public License.
@@ -151,7 +151,7 @@ diff -ruN proll_18.orig/qemu/head.S proll-patch-15/qemu/head.S
 + ** This code is licensed under GNU General Public License.
 + **/
 +/*
-+ * $Id: proll.patch,v 1.6 2005-11-11 00:24:57 bellard Exp $
++ * $Id: proll.patch,v 1.6 2005/11/11 00:24:57 bellard Exp $
 + */
 +
 +#include <psr.h>
