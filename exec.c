@@ -36,6 +36,7 @@
 #include "cpu.h"
 #include "exec-all.h"
 #include "qemu-common.h"
+#include "qemu-log.h"
 #include "tcg.h"
 #include "hw/hw.h"
 #include "osdep.h"
@@ -185,8 +186,6 @@ static int io_mem_watch;
 
 /* log support */
 static const char *logfilename = "/tmp/qemu.log";
-FILE *logfile;
-int loglevel;
 static int log_append = 0;
 
 /* statistics */
