@@ -486,7 +486,7 @@ static void do_log(const char *items)
             return;
         }
     }
-    cpu_set_log(mask);
+    qemu_set_log(mask);
 }
 
 static void do_stop(void)

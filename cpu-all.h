@@ -827,7 +827,7 @@ typedef struct CPULogItem {
 
 extern const CPULogItem cpu_log_items[];
 
-void cpu_set_log(int log_flags);
+void qemu_set_log(int level);
 void cpu_set_log_filename(const char *filename);
 int cpu_str_to_log_mask(const char *str);
 

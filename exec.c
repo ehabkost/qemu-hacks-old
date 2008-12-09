@@ -1456,9 +1456,9 @@ void cpu_single_step(CPUState *env, int enabled)
 }
 
 /* enable or disable low levels log */
-void cpu_set_log(int log_flags)
+void qemu_set_log(int level)
 {
-    loglevel = log_flags;
+    loglevel = level;
     if (loglevel && !logfile) {
         logfile = fopen(logfilename, log_append ? "a" : "w");
         if (!logfile) {
@@ -1489,7 +1489,7 @@ void cpu_set_log_filename(const char *filename)
         fclose(logfile);
         logfile = NULL;
     }
-    cpu_set_log(loglevel);
+    qemu_set_log(loglevel);
 }
 
 /* mask must never be zero, except for A20 change call */

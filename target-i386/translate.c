@@ -6574,7 +6574,7 @@ static target_ulong disas_insn(DisasContext *s, target_ulong pc_start)
 #else
         /* start debug */
         tb_flush(cpu_single_env);
-        cpu_set_log(CPU_LOG_INT | CPU_LOG_TB_IN_ASM);
+        qemu_set_log(CPU_LOG_INT | CPU_LOG_TB_IN_ASM);
 #endif
         break;
 #endif

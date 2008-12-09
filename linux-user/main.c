@@ -2291,7 +2291,7 @@ int main(int argc, char **argv, char **envp)
                 }
                 exit(1);
             }
-            cpu_set_log(mask);
+            qemu_set_log(mask);
         } else if (!strcmp(r, "E")) {
             r = argv[optind++];
             if (envlist_setenv(envlist, r) != 0)

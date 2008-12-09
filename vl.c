@@ -5000,7 +5000,7 @@ int main(int argc, char **argv, char **envp)
                     }
                     exit(1);
                     }
-                    cpu_set_log(mask);
+                    qemu_set_log(mask);
                 }
                 break;
 #ifdef CONFIG_GDBSTUB

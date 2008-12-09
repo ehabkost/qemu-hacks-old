@@ -195,7 +195,7 @@ int main(int argc, char **argv)
         sigaction(SIGBUS, &act, NULL);
     }
 
-    //    cpu_set_log(CPU_LOG_TB_IN_ASM | CPU_LOG_TB_OUT_ASM | CPU_LOG_EXEC);
+    //    qemu_set_log(CPU_LOG_TB_IN_ASM | CPU_LOG_TB_OUT_ASM | CPU_LOG_EXEC);
 
     env = cpu_init("qemu32");
 
