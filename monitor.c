@@ -470,7 +470,7 @@ static void do_screen_dump(const char *filename)
 
 static void do_logfile(const char *filename)
 {
-    cpu_set_log_filename(filename);
+    qemu_set_log_filename(filename);
 }
 
 static void do_log(const char *items)

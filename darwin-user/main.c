@@ -782,7 +782,7 @@ int main(int argc, char **argv)
         usage();
 
     /* init debug */
-    cpu_set_log_filename(DEBUG_LOGFILE);
+    qemu_set_log_filename(DEBUG_LOGFILE);
 
     optind = 1;
     for(;;) {

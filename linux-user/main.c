@@ -2251,7 +2251,7 @@ int main(int argc, char **argv, char **envp)
     qemu_cache_utils_init(envp);
 
     /* init debug */
-    cpu_set_log_filename(DEBUG_LOGFILE);
+    qemu_set_log_filename(DEBUG_LOGFILE);
 
     if ((envlist = envlist_create()) == NULL) {
         (void) fprintf(stderr, "Unable to allocate envlist\n");

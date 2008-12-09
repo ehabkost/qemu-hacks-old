@@ -1482,7 +1482,7 @@ void qemu_set_log(int level)
     }
 }
 
-void cpu_set_log_filename(const char *filename)
+void qemu_set_log_filename(const char *filename)
 {
     logfilename = strdup(filename);
     if (logfile) {
