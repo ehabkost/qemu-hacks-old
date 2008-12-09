@@ -101,4 +101,8 @@ void qemu_set_log(int level);
 void qemu_set_log_filename(const char *filename);
 
 
+/** fprintf-like logging function, for cpu_dump_state() & others
+ */
+int qemu_log_fprintf(FILE *f, const char *fmt, ...);
+
 #endif

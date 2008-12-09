@@ -22,6 +22,7 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdarg.h>
 
 #include "qemu-log.h"
 
@@ -66,4 +67,12 @@ void qemu_set_log_filename(const char *filename)
         logfile = NULL;
     }
     qemu_set_log(loglevel);
+}
+
+int qemu_log_fprintf(FILE *f, const char *fmt, ...)
+{
+    va_list ap;
+    va_start(ap, fmt);
+    qemu_log_vprintf(fmt, ap);
+    return 0;
 }
