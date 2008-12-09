@@ -29,6 +29,7 @@
 #include "exec-all.h"
 #include "disas.h"
 #include "tcg-op.h"
+#include "qemu-log.h"
 
 #include "helper.h"
 #define GEN_HELPER 1

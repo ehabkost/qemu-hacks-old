@@ -28,6 +28,7 @@
 
 #include "qemu.h"
 #include "qemu-common.h"
+#include "qemu-log.h"
 #include "cache-utils.h"
 /* For tb_lock */
 #include "exec-all.h"

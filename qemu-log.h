@@ -90,4 +90,9 @@ extern int loglevel;
     } while (0)
 
 
+/* Setup code: */
+void qemu_set_log(int level);
+void qemu_set_log_filename(const char *filename);
+
+
 #endif

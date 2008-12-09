@@ -40,6 +40,8 @@
 #include "migration.h"
 #include "kvm.h"
 
+#include "qemu-log.h"
+
 //#define DEBUG
 //#define DEBUG_COMPLETION
 

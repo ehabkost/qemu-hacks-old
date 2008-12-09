@@ -30,6 +30,7 @@
 #include <sys/mman.h>
 
 #include "qemu.h"
+#include "qemu-log.h"
 
 #define DEBUG_LOGFILE "/tmp/qemu.log"
 
