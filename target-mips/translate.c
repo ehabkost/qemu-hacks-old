@@ -2307,9 +2307,7 @@ static void gen_compute_branch (DisasContext *ctx, uint32_t opc,
     TCGv t1 = tcg_temp_local_new();
 
     if (ctx->hflags & MIPS_HFLAG_BMASK) {
-#ifdef MIPS_DEBUG_DISAS
         LOG_DISAS("Branch in delay slot at PC 0x" TARGET_FMT_lx "\n", ctx->pc);
-#endif
         generate_exception(ctx, EXCP_RI);
         goto out;
     }
