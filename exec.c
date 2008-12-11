@@ -184,10 +184,6 @@ char io_mem_used[IO_MEM_NB_ENTRIES];
 static int io_mem_watch;
 #endif
 
-/* log support */
-static const char *logfilename = "/tmp/qemu.log";
-static int log_append = 0;
-
 /* statistics */
 static int tlb_flush_count;
 static int tb_flush_count;
@@ -1455,42 +1451,6 @@ void cpu_single_step(CPUState *env, int enabled)
 }
 
 /* enable or disable low levels log */
-void qemu_set_log(int level)
-{
-    loglevel = level;
-    if (loglevel && !logfile) {
-        logfile = fopen(logfilename, log_append ? "a" : "w");
-        if (!logfile) {
-            perror(logfilename);
-            _exit(1);
-        }
-#if !defined(CONFIG_SOFTMMU)
-        /* must avoid mmap() usage of glibc by setting a buffer "by hand" */
-        {
-            static char logfile_buf[4096];
-            setvbuf(logfile, logfile_buf, _IOLBF, sizeof(logfile_buf));
-        }
-#else
-        setvbuf(logfile, NULL, _IOLBF, 0);
-#endif
-        log_append = 1;
-    }
-    if (!loglevel && logfile) {
-        fclose(logfile);
-        logfile = NULL;
-    }
-}
-
-void qemu_set_log_filename(const char *filename)
-{
-    logfilename = strdup(filename);
-    if (logfile) {
-        fclose(logfile);
-        logfile = NULL;
-    }
-    qemu_set_log(loglevel);
-}
-
 /* mask must never be zero, except for A20 change call */
 void cpu_interrupt(CPUState *env, int mask)
 {
