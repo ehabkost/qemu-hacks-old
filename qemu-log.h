@@ -1,6 +1,10 @@
 #ifndef QEMU_LOG_H
 #define QEMU_LOG_H
 
+#ifndef QEMU_STDIO_DEFS
+#include <stdio.h>
+#endif
+
 /* The deprecated global variables: */
 extern FILE *logfile;
 extern int loglevel;
