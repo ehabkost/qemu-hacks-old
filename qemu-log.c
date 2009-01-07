@@ -59,6 +59,18 @@ void qemu_set_log(int level)
     }
 }
 
+int __qemu_log_vprintf(const char *fmt, va_list args)
+{
+    return vfprintf(logfile, fmt, args);
+}
+
+int __qemu_log_printf(const char *fmt, ...)
+{
+    va_list ap;
+    va_start(ap, fmt);
+    return __qemu_log_vprintf(fmt, ap);
+}
+
 void qemu_set_log_filename(const char *filename)
 {
     logfilename = strdup(filename);

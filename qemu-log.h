@@ -5,6 +5,8 @@
 #include <stdio.h>
 #endif
 
+#include <stdarg.h>
+
 /* The deprecated global variables: */
 extern FILE *logfile;
 extern int loglevel;
@@ -30,25 +32,32 @@ typedef int (*qemu_fprintf_fn)(FILE *f, const char *fmt, ...);
 
 /* Logging functions: */
 
+
+/* The actual logging functions. Don't call them directly.
+ */
+int __qemu_log_vprintf(const char *fmt, va_list args);
+int __qemu_log_printf(const char *fmt, ...);
+
+
 /* main logging function
  */
 #define qemu_log(...) do {                 \
         if (logfile)                       \
-            fprintf(logfile, ## __VA_ARGS__); \
+            __qemu_log_printf(__VA_ARGS__); \
     } while (0)
 
 /* vfprintf-like logging function
  */
 #define qemu_log_vprintf(fmt, va) do {     \
         if (logfile)                       \
-            vfprintf(logfile, fmt, va);    \
+            __qemu_log_vprintf(fmt, va);    \
     } while (0)
 
 /* log only if a bit is set on the current loglevel mask
  */
 #define qemu_log_mask(b, ...) do {         \
         if (loglevel & (b))                \
-            fprintf(logfile, ## __VA_ARGS__); \
+            __qemu_log_printf(__VA_ARGS__); \
     } while (0)
 
 
