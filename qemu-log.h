@@ -57,7 +57,7 @@ typedef int (*qemu_fprintf_fn)(FILE *f, const char *fmt, ...);
 /* Special cases: */
 
 /* cpu_dump_state() logging functions: */
-#define log_cpu_state(env, f) cpu_dump_state((env), logfile, fprintf, (f));
+#define log_cpu_state(env, f) cpu_dump_state((env), NULL, qemu_log_fprintf, (f));
 #define log_cpu_state_mask(b, env, f) do {           \
       if (loglevel & (b)) log_cpu_state((env), (f)); \
   } while (0)
