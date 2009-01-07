@@ -22,6 +22,7 @@
  * THE SOFTWARE.
  */
 #include "tcg-target.h"
+#include "qemu-log.h"
 
 #if TCG_TARGET_REG_BITS == 32
 typedef int32_t tcg_target_long;
@@ -349,8 +350,7 @@ static inline TCGv_i64 tcg_temp_local_new_i64(void)
 void tcg_temp_free_i64(TCGv_i64 arg);
 char *tcg_get_arg_str_i64(TCGContext *s, char *buf, int buf_size, TCGv_i64 arg);
 
-void tcg_dump_info(FILE *f,
-                   int (*cpu_fprintf)(FILE *f, const char *fmt, ...));
+void tcg_dump_info(FILE *f, qemu_fprintf_fn fprintf_fn);
 
 #define TCG_CT_ALIAS  0x80
 #define TCG_CT_IALIAS 0x40
@@ -431,7 +431,8 @@ void tcg_gen_shifti_i64(TCGv_i64 ret, TCGv_i64 arg1,
 /* only used for debugging purposes */
 void tcg_register_helper(void *func, const char *name);
 const char *tcg_helper_get_name(TCGContext *s, void *func);
-void tcg_dump_ops(TCGContext *s, FILE *outfile);
+void tcg_dump_ops(TCGContext *s, FILE *outfile,
+                  int (*fprintf_fn)(FILE *f, const char *fmt, ...));
 
 void dump_ops(const uint16_t *opc_buf, const TCGArg *opparam_buf);
 TCGv_i32 tcg_const_i32(int32_t val);

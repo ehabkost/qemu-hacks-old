@@ -1428,7 +1428,7 @@ static void tcg_out_op(TCGContext *s, int opc, const TCGArg *args,
         break;
 
     default:
-        tcg_dump_ops (s, stderr);
+        tcg_dump_ops (s, stderr, fprintf);
         tcg_abort ();
     }
 }
