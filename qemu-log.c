@@ -23,6 +23,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdarg.h>
+#include <time.h>
 
 #include "qemu-log.h"
 
@@ -59,9 +60,67 @@ void qemu_set_log(int level)
     }
 }
 
+static int log_incomplete_line;
+static int qemu_log_line(const char *line, size_t len)
+{
+    int r;
+    if (!log_incomplete_line) {
+        time_t t;
+        struct tm tm;
+        time(&t);
+        localtime_r(&t, &tm);
+        fprintf(logfile, "[%04d-%02d-%02d %02d:%02d:%02d] ",
+                tm.tm_year+1900, tm.tm_mon+1, tm.tm_mday,
+                tm.tm_hour, tm.tm_min, tm.tm_sec);
+    }
+    r = fwrite(line, len, 1, logfile);
+    if (r < 0)
+        return r;
+
+    log_incomplete_line = (line[len-1] != '\n');
+    return r;
+}
+
+
+
+#define LOGBUF_SIZE 1024
 int __qemu_log_vprintf(const char *fmt, va_list args)
 {
-    return vfprintf(logfile, fmt, args);
+    char logbuf[LOGBUF_SIZE];
+    const char *next, *nl;
+    int size;
+
+    /* Format the message */
+    size = vsnprintf(logbuf, 1024, fmt, args);
+    if (size < 0)
+        return size;
+
+    /* just in case the output was truncated */
+    if (size >= LOGBUF_SIZE)
+        logbuf[LOGBUF_SIZE-1] = '\0';
+
+
+    /* Handle one line a time */
+    next = logbuf;
+    while ( (nl = strchr(next, '\n')) ) {
+        if (qemu_log_line(next, nl-next+1) < 0)
+            return -1;
+        next = nl+1;
+    }
+    /* No more newlines. If there is an incomplete line remaining,
+     * print it also */
+    if (*next)
+        if (qemu_log_line(next, strlen(next)) < 0)
+            return -1;
+
+    /* Just in case we truncated the message above, print a warning
+     * just after the message.
+     */
+    if (size >= LOGBUF_SIZE)
+        if (qemu_log_line("...[truncated]", 14))
+            return -1;
+
+    return 0;
 }
 
 int __qemu_log_printf(const char *fmt, ...)
