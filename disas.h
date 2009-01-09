@@ -1,9 +1,13 @@
 #ifndef _QEMU_DISAS_H
 #define _QEMU_DISAS_H
 
+#include "qemu-log.h"
+
 /* Disassemble this for me please... (debugging). */
-void disas(FILE *out, void *code, unsigned long size);
-void target_disas(FILE *out, target_ulong code, target_ulong size, int flags);
+void disas(FILE *out, qemu_fprintf_fn,
+           void *code, unsigned long size);
+void target_disas(FILE *out, qemu_fprintf_fn print_fn,
+                  target_ulong code, target_ulong size, int flags);
 void monitor_disas(CPUState *env,
                    target_ulong pc, int nb_insn, int is_physical, int flags);
 

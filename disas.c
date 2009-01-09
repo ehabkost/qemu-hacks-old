@@ -7,6 +7,7 @@
 #include "cpu.h"
 #include "exec-all.h"
 #include "disas.h"
+#include "qemu-log.h"
 
 /* Filled in by elfload.c.  Simplistic, but will do for now. */
 struct syminfo *syminfos = NULL;
@@ -131,14 +132,15 @@ print_insn_thumb1(bfd_vma pc, disassemble_info *info)
     ppc  - nonzero means little endian
     other targets - unused
  */
-void target_disas(FILE *out, target_ulong code, target_ulong size, int flags)
+void target_disas(FILE *out, qemu_fprintf_fn print_fn,
+                  target_ulong code, target_ulong size, int flags)
 {
     target_ulong pc;
     int count;
     struct disassemble_info disasm_info;
     int (*print_insn)(bfd_vma pc, disassemble_info *info);
 
-    INIT_DISASSEMBLE_INFO(disasm_info, out, fprintf);
+    INIT_DISASSEMBLE_INFO(disasm_info, out, print_fn);
 
     disasm_info.read_memory_func = target_read_memory;
     disasm_info.buffer_vma = code;
@@ -199,41 +201,42 @@ void target_disas(FILE *out, target_ulong code, target_ulong size, int flags)
     disasm_info.mach = bfd_mach_cris_v32;
     print_insn = print_insn_crisv32;
 #else
-    fprintf(out, "0x" TARGET_FMT_lx
+    print_fn(out, "0x" TARGET_FMT_lx
 	    ": Asm output not supported on this arch\n", code);
     return;
 #endif
 
     for (pc = code; size > 0; pc += count, size -= count) {
-	fprintf(out, "0x" TARGET_FMT_lx ":  ", pc);
+	print_fn(out, "0x" TARGET_FMT_lx ":  ", pc);
 	count = print_insn(pc, &disasm_info);
 #if 0
         {
             int i;
             uint8_t b;
-            fprintf(out, " {");
+            print_fn(out, " {");
             for(i = 0; i < count; i++) {
                 target_read_memory(pc + i, &b, 1, &disasm_info);
-                fprintf(out, " %02x", b);
+                print_fn(out, " %02x", b);
             }
-            fprintf(out, " }");
+            print_fn(out, " }");
         }
 #endif
-	fprintf(out, "\n");
+	print_fn(out, "\n");
 	if (count < 0)
 	    break;
     }
 }
 
 /* Disassemble this for me please... (debugging). */
-void disas(FILE *out, void *code, unsigned long size)
+void disas(FILE *out, qemu_fprintf_fn print_fn,
+           void *code, unsigned long size)
 {
     unsigned long pc;
     int count;
     struct disassemble_info disasm_info;
     int (*print_insn)(bfd_vma pc, disassemble_info *info);
 
-    INIT_DISASSEMBLE_INFO(disasm_info, out, fprintf);
+    INIT_DISASSEMBLE_INFO(disasm_info, out, print_fn);
 
     disasm_info.buffer = code;
     disasm_info.buffer_vma = (unsigned long)code;
@@ -272,19 +275,19 @@ void disas(FILE *out, void *code, unsigned long size)
 #elif defined(__hppa__)
     print_insn = print_insn_hppa;
 #else
-    fprintf(out, "0x%lx: Asm output not supported on this arch\n",
+    print_fn(out, "0x%lx: Asm output not supported on this arch\n",
 	    (long) code);
     return;
 #endif
     for (pc = (unsigned long)code; size > 0; pc += count, size -= count) {
-	fprintf(out, "0x%08lx:  ", pc);
+	print_fn(out, "0x%08lx:  ", pc);
 #ifdef __arm__
         /* since data is included in the code, it is better to
            display code data too */
-        fprintf(out, "%08x  ", (int)bfd_getl32((const bfd_byte *)pc));
+        print_fn(out, "%08x  ", (int)bfd_getl32((const bfd_byte *)pc));
 #endif
 	count = print_insn(pc, &disasm_info);
-	fprintf(out, "\n");
+	print_fn(out, "\n");
 	if (count < 0)
 	    break;
     }
