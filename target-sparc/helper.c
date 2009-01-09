@@ -28,6 +28,7 @@
 #include "cpu.h"
 #include "exec-all.h"
 #include "qemu-common.h"
+#include "qemu-log.h"
 
 //#define DEBUG_MMU
 //#define DEBUG_FEATURES
@@ -1369,8 +1370,7 @@ void sparc_cpu_list(FILE *f, int (*cpu_fprintf)(FILE *f, const char *fmt, ...))
 #define GET_FLAG(a,b) ((env->psr & a)?b:'-')
 
 void cpu_dump_state(CPUState *env, FILE *f,
-                    int (*cpu_fprintf)(FILE *f, const char *fmt, ...),
-                    int flags)
+                    qemu_fprintf_fn cpu_fprintf, int flags)
 {
     int i, x;
 

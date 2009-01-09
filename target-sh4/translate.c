@@ -33,6 +33,7 @@
 #include "disas.h"
 #include "tcg-op.h"
 #include "qemu-common.h"
+#include "qemu-log.h"
 
 #include "helper.h"
 #define GEN_HELPER 1
@@ -158,8 +159,7 @@ static void sh4_translate_init(void)
 }
 
 void cpu_dump_state(CPUState * env, FILE * f,
-		    int (*cpu_fprintf) (FILE * f, const char *fmt, ...),
-		    int flags)
+                    qemu_fprintf_fn cpu_fprintf, int flags)
 {
     int i;
     cpu_fprintf(f, "pc=0x%08x sr=0x%08x pr=0x%08x fpscr=0x%08x\n",

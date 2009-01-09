@@ -42,6 +42,7 @@
 
 #include "bswap.h"
 #include "softfloat.h"
+#include "qemu-log.h"
 
 #if defined(WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
 #define BSWAP_NEEDED
@@ -748,8 +749,7 @@ void cpu_exec_init_all(unsigned long tb_size);
 CPUState *cpu_copy(CPUState *env);
 
 void cpu_dump_state(CPUState *env, FILE *f,
-                    int (*cpu_fprintf)(FILE *f, const char *fmt, ...),
-                    int flags);
+                    qemu_fprintf_fn cpu_fprintf, int flags);
 void cpu_dump_statistics (CPUState *env, FILE *f,
                           int (*cpu_fprintf)(FILE *f, const char *fmt, ...),
                           int flags);

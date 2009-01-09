@@ -39,6 +39,7 @@
 #include "mmu.h"
 #include "crisv32-decode.h"
 #include "qemu-common.h"
+#include "qemu-log.h"
 
 #define GEN_HELPER 1
 #include "helper.h"
@@ -3353,8 +3354,7 @@ void gen_intermediate_code_pc (CPUState *env, struct TranslationBlock *tb)
 }
 
 void cpu_dump_state (CPUState *env, FILE *f,
-                     int (*cpu_fprintf)(FILE *f, const char *fmt, ...),
-                     int flags)
+                     qemu_fprintf_fn cpu_fprintf, int flags)
 {
 	int i;
 	uint32_t srs;

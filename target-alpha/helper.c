@@ -24,6 +24,7 @@
 
 #include "cpu.h"
 #include "exec-all.h"
+#include "qemu-log.h"
 
 #if defined(CONFIG_USER_ONLY)
 
@@ -408,8 +409,7 @@ void do_interrupt (CPUState *env)
 #endif
 
 void cpu_dump_state (CPUState *env, FILE *f,
-                     int (*cpu_fprintf)(FILE *f, const char *fmt, ...),
-                     int flags)
+                     qemu_fprintf_fn cpu_fprintf, int flags)
 {
     static const char *linux_reg_names[] = {
         "v0 ", "t0 ", "t1 ", "t2 ", "t3 ", "t4 ", "t5 ", "t6 ",

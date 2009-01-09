@@ -28,6 +28,7 @@
 #include "disas.h"
 #include "tcg-op.h"
 #include "qemu-common.h"
+#include "qemu-log.h"
 
 #include "helper.h"
 #define GEN_HELPER 1
@@ -8068,8 +8069,7 @@ GEN_OPCODE_MARK(end);
 /*****************************************************************************/
 /* Misc PowerPC helpers */
 void cpu_dump_state (CPUState *env, FILE *f,
-                     int (*cpu_fprintf)(FILE *f, const char *fmt, ...),
-                     int flags)
+                     qemu_fprintf_fn cpu_fprintf, int flags)
 {
 #define RGPL  4
 #define RFPL  4
