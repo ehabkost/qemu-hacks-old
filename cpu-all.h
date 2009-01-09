@@ -21,6 +21,7 @@
 #define CPU_ALL_H
 
 #include "qemu-common.h"
+#include "qemu-log.h"
 
 #if defined(__arm__) || defined(__sparc__) || defined(__mips__) || defined(__hppa__)
 #define WORDS_ALIGNED
@@ -738,7 +739,7 @@ extern unsigned long qemu_host_page_mask;
 #define PAGE_WRITE_ORG 0x0010
 #define PAGE_RESERVED  0x0020
 
-void page_dump(FILE *f);
+void page_dump(FILE *f, qemu_fprintf_fn print_fn);
 int page_get_flags(target_ulong address);
 void page_set_flags(target_ulong start, target_ulong end, int flags);
 int page_check_range(target_ulong start, target_ulong len, int flags);

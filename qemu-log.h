@@ -69,7 +69,7 @@ typedef int (*qemu_fprintf_fn)(FILE *f, const char *fmt, ...);
         disas(NULL, qemu_log_fprintf, (start), (len))
 
 /* page_dump() output to the log file: */
-#define log_page_dump() page_dump(logfile)
+#define log_page_dump() page_dump(NULL, qemu_log_fprintf)
 
 
 

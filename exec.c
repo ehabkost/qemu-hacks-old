@@ -2013,13 +2013,13 @@ int tlb_set_page_exec(CPUState *env, target_ulong vaddr,
 }
 
 /* dump memory mappings */
-void page_dump(FILE *f)
+void page_dump(FILE *f, qemu_fprintf_fn print_fn)
 {
     unsigned long start, end;
     int i, j, prot, prot1;
     PageDesc *p;
 
-    fprintf(f, "%-8s %-8s %-8s %s\n",
+    print_fn(f, "%-8s %-8s %-8s %s\n",
             "start", "end", "size", "prot");
     start = -1;
     end = -1;
@@ -2037,7 +2037,7 @@ void page_dump(FILE *f)
             if (prot1 != prot) {
                 end = (i << (32 - L1_BITS)) | (j << TARGET_PAGE_BITS);
                 if (start != -1) {
-                    fprintf(f, "%08lx-%08lx %08lx %c%c%c\n",
+                    print_fn(f, "%08lx-%08lx %08lx %c%c%c\n",
                             start, end, end - start,
                             prot & PAGE_READ ? 'r' : '-',
                             prot & PAGE_WRITE ? 'w' : '-',
