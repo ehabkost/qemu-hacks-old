@@ -9,6 +9,8 @@
 extern FILE *logfile;
 extern int loglevel;
 
+typedef int (*qemu_fprintf_fn)(FILE *f, const char *fmt, ...);
+
 
 /* 
  * The new API:
